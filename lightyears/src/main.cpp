@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 int main(){
+	sf::RenderWindow renderWindow(sf::VideoMode(100,100),"MyWindow");
 	std::cout<<"Hello game dev"<<std::endl;
 	return 0;
 }
