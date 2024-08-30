@@ -20,8 +20,5 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(${SFML_LIB_NAME})
 
-set(LIGHT_YEARS_GAME_TARGET_NAME lightYearsGame)
-
 add_subdirectory(lightyears)
 
-target_link_libraries(${LIGHT_YEARS_GAME_TARGET_NAME} PUBLIC sfml-graphics)
