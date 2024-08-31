@@ -1,8 +1,8 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include "framework/application.hpp"
 
 int main(){
-	sf::RenderWindow renderWindow(sf::VideoMode(100,100),"MyWindow");
-	std::cout<<"Hello game dev"<<std::endl;
+	ly::Application *app = new ly::Application("light years",480,640);
+	app->run();
 	return 0;
 }
