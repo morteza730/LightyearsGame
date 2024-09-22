@@ -33,11 +33,18 @@ void ly::World::tickInternal(float deltaTime)
         if (iter->get()->isPendingDistroyed()){
             iter = m_actors.erase(iter);
         }else{
-            iter->get()->tick(deltaTime);
+            iter->get()->tickInternal(deltaTime);
             iter++;
         }
     }
     tick(deltaTime);
+}
+
+void ly::World::render(sf::RenderWindow &window)
+{
+    for(shared<Actor> actor:m_actors){
+        actor->render(window);
+    }
 }
 
 void ly::World::beginPlay()
@@ -47,5 +54,5 @@ void ly::World::beginPlay()
 
 void ly::World::tick(float deltaTime)
 {
-    LOG("world working at framerate: %f",1.f/deltaTime);
+    // LOG("world working at framerate: %f",1.f/deltaTime);
 }

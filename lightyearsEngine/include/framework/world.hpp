@@ -1,6 +1,7 @@
 #pragma once
 
 #include "framework/core.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace ly{
     class Application;
@@ -11,7 +12,7 @@ namespace ly{
             virtual ~World();
             void beginPlayInternal();
             void tickInternal(float deltaTime);
-
+            void render(sf::RenderWindow &window);
             template<typename actorType>
             weak<actorType> spawnAcotr();
 

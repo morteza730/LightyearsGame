@@ -8,8 +8,7 @@ namespace ly{
     class World;
     class Application{
         public:
-            Application(std::string title,unsigned int width,unsigned int height);
-            Application();
+            Application(unsigned int width,unsigned int height,std::string title,sf::Uint32 style);
             virtual void run();
 
             template<typename worldType>
@@ -24,6 +23,8 @@ namespace ly{
             virtual void render();
             virtual void tick(float deltaTime);
             shared<World> currentWorld;
+            sf::Clock m_cleanCycleClock;
+            float m_cleanCycleInterval;
     };
     template<typename worldType>
     weak<worldType> Application::loadWorld(){

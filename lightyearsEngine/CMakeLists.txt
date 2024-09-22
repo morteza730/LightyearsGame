@@ -12,8 +12,12 @@ add_library(${LIGHT_YEARS_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/core.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/world.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/world.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/assetmanager.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/assetmanager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/actor.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/actor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/mathutility.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/mathutility.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/object.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/object.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/entrypoint.hpp

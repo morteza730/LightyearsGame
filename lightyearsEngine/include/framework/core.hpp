@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <cmath>
 
 #define LOG(M,...) printf(M"\n",##__VA_ARGS__)
 
