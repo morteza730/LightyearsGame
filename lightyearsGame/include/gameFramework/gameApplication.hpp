@@ -3,8 +3,7 @@
 #include <framework/core.hpp>
 
 namespace ly{
-    class Actor;
-    class SpaceShip;
+    class PlayerSpaceShip;
     class GameApplication:public Application
     {
         public:
@@ -13,6 +12,6 @@ namespace ly{
 
         private:
             float counter;
-            weak<SpaceShip> testPlayerSpaceShip;
+            weak<PlayerSpaceShip> testPlayerSpaceShip;
     };
 }

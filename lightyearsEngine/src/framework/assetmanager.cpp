@@ -2,13 +2,16 @@
 
 ly::unique<ly::AssetManager> ly::AssetManager::asset_manager{nullptr};
 
-ly::AssetManager::AssetManager()
+ly::AssetManager::AssetManager():
+    m_rootDir{""}
 {}
 
-ly::AssetManager::AssetManager(const AssetManager &instance)
+ly::AssetManager::AssetManager(const AssetManager &instance):
+    m_rootDir{""}
 {}
 
-ly::AssetManager::AssetManager(const AssetManager &&instance)
+ly::AssetManager::AssetManager(const AssetManager &&instance):
+    m_rootDir{""}
 {}
 
 ly::AssetManager &ly::AssetManager::get()
@@ -26,7 +29,7 @@ ly::shared<sf::Texture> ly::AssetManager::loadTexture(const std::string path)
         return itr->second;
     }
     shared<sf::Texture> new_texture{new sf::Texture};
-    if (new_texture->loadFromFile(path)){
+    if (new_texture->loadFromFile(m_rootDir+path)){
         m_texture_map.insert({path,new_texture});
         return new_texture;
     }
@@ -43,4 +46,9 @@ void ly::AssetManager::cleanCycle()
             itr++;
         }
     }
+}
+
+void ly::AssetManager::setAssetRootDir(const std::string &directory)
+{
+    m_rootDir = directory;
 }
