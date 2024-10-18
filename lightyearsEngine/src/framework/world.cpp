@@ -1,6 +1,7 @@
 #include "framework/world.hpp"
 #include "framework/core.hpp"
 #include "framework/actor.hpp"
+#include "framework/application.hpp"
 
 ly::World::World(Application *application):
 m_beginPlay{false},
@@ -30,12 +31,8 @@ void ly::World::tickInternal(float deltaTime)
     }
     m_pendingActors.clear();
     for(auto iter=m_actors.begin();iter != m_actors.end();){
-        if (iter->get()->isPendingDistroyed()){
-            iter = m_actors.erase(iter);
-        }else{
-            iter->get()->tickInternal(deltaTime);
-            iter++;
-        }
+        iter->get()->tickInternal(deltaTime);
+        iter++;
     }
     tick(deltaTime);
 }
@@ -44,6 +41,22 @@ void ly::World::render(sf::RenderWindow &window)
 {
     for(shared<Actor> actor:m_actors){
         actor->render(window);
+    }
+}
+
+sf::Vector2u ly::World::getWindowSize() const
+{
+    return owningApp->getWindowSize();
+}
+
+void ly::World::cleanCycle()
+{
+    for(auto iter=m_actors.begin();iter != m_actors.end();){
+        if (iter->get()->isPendingDistroyed()){
+            iter = m_actors.erase(iter);
+        }else{
+            iter++;
+        }
     }
 }
 

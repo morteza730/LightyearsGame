@@ -3,6 +3,7 @@
 #include "framework/application.hpp"
 #include "framework/world.hpp"
 #include "framework/assetmanager.hpp"
+#include "framework/physicssystem.hpp"
 
 ly::Application::Application(unsigned int width,unsigned int height,std::string title,sf::Uint32 style):
 m_window(sf::VideoMode(width,height),title,style),
@@ -35,15 +36,25 @@ void ly::Application::run()
     }
 }
 
+sf::Vector2u ly::Application::getWindowSize()
+{
+    return m_window.getSize();
+}
+
 void ly::Application::tick_internal(float deltaTime){
     tick(deltaTime);
     if (currentWorld){
         currentWorld->beginPlayInternal();
         currentWorld->tickInternal(deltaTime);
     }
+    PhysicsSystem::get().step(deltaTime);
+    // clean cycle
     if (m_cleanCycleClock.getElapsedTime().asSeconds()>m_cleanCycleInterval){
         m_cleanCycleClock.restart();
         AssetManager::get().cleanCycle();
+        if (currentWorld){
+            currentWorld->cleanCycle();
+        }
     }
 }
 

@@ -14,3 +14,13 @@ void ly::SpaceShip::setVelocity(const sf::Vector2f &new_velocity)
 {
     m_velocity = new_velocity;
 }
+
+void ly::SpaceShip::shoot()
+{
+}
+
+void ly::SpaceShip::beginPlay()
+{
+    Actor::beginPlay();
+    setEnablePhysics(true);
+}

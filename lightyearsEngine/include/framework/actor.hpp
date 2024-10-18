@@ -4,6 +4,8 @@
 #include "object.hpp"
 #include "framework/core.hpp"
 
+class b2Body;
+
 namespace ly{
     class World;
     class Actor:public Object
@@ -24,6 +26,11 @@ namespace ly{
             float getActorRotaion() const;
             sf::Vector2f getActorForwardDirection();
             sf::Vector2f getActorRightDirection();
+            sf::Vector2u getWindowSize() const;
+            World* getWorld() const {return owningWorld;}
+            bool isActorOutOfWindowsBounds() const;
+            sf::FloatRect getActorGlobalBounds() const;
+            void setEnablePhysics(bool enable);
 
         protected:
             virtual void beginPlay();
@@ -34,6 +41,12 @@ namespace ly{
             bool m_beginPlay;
             sf::Sprite m_sprite;
             shared<sf::Texture> m_texture;
+            b2Body *m_physicsBody;
+            bool m_physicsEnable;
+            
             void centerPivot();
+            void initializePhysics();
+            void uninitializePhysics();
+            void updatePhysicsBodyTransform();
     };
 }

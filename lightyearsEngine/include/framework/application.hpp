@@ -10,7 +10,7 @@ namespace ly{
         public:
             Application(unsigned int width,unsigned int height,std::string title,sf::Uint32 style);
             virtual void run();
-
+            sf::Vector2u getWindowSize();
             template<typename worldType>
             weak<worldType> loadWorld();
 
