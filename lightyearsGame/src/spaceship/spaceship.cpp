@@ -10,6 +10,7 @@ void ly::SpaceShip::tick(float deltaTime)
     Actor::tick(deltaTime);
     addActorLocationOffset(deltaTime*getVelocity());
 }
+
 void ly::SpaceShip::setVelocity(const sf::Vector2f &new_velocity)
 {
     m_velocity = new_velocity;

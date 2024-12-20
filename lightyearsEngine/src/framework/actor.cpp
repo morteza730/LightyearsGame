@@ -57,26 +57,29 @@ void ly::Actor::render(sf::RenderWindow &window)
         return;
     }
     window.draw(m_sprite);
+    
 }
 
 void ly::Actor::setActorLocation(const sf::Vector2f& location)
 {
     m_sprite.setPosition(location);
+    updatePhysicsBodyTransform();
 }
 
 void ly::Actor::setActorRotation(float rotation)
 {
     m_sprite.setRotation(rotation);
+    updatePhysicsBodyTransform();
 }
 
 void ly::Actor::addActorLocationOffset(const sf::Vector2f &offset)
 {
-    m_sprite.setPosition(getActorLocation()+offset);
+    setActorLocation(getActorLocation()+offset);
 }
 
 void ly::Actor::addActorRotationOffset(float offset)
 {
-    m_sprite.setRotation(getActorRotaion()+offset);
+   setActorRotation(getActorRotaion()+offset);
 }
 
 sf::Vector2f ly::Actor::getActorLocation() const

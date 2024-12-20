@@ -22,6 +22,10 @@ namespace ly{
         s_world->spawnAcotr<Actor>();
         testPlayerSpaceShip = s_world->spawnAcotr<PlayerSpaceShip>();
         testPlayerSpaceShip.lock()->setActorLocation(sf::Vector2f(240,320));
+
+        weak<Actor> testSpaceship = s_world->spawnAcotr<SpaceShip>();
+        testSpaceship.lock()->setTexture("PNG/playerShip1_blue.png");
+        testSpaceship.lock()->setActorLocation(sf::Vector2f(300.f,100.f));
     }
 }
 
