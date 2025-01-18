@@ -5,11 +5,14 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <unordered_set>
 #include <cmath>
 
 #define LOG(M,...) printf(M"\n",##__VA_ARGS__)
 
 namespace ly{
+    using uint8 = unsigned char;
+
     template<typename T>
     using unique = std::unique_ptr<T>;
 
@@ -21,6 +24,9 @@ namespace ly{
 
     template<typename T>
     using List = std::vector<T>;
+
+    template<typename T>
+    using Set = std::unordered_set<T>;
 
     template<typename keyType,typename valueType,typename pr = std::less<keyType>>
     using Map = std::map<keyType,valueType,pr>;

@@ -1,14 +1,24 @@
 #pragma once
 
-namespace ly{
-    class Object{
-        public:
-            Object();
-            virtual ~Object();
-            bool isPendingDistroyed(){return m_isPendingDistroyed;}
-            void distroy();
-        private:
-            bool m_isPendingDistroyed;
+#include <memory>
+#include "framework/core.hpp"
+#include "framework/delegate.hpp"
+
+namespace ly
+{
+    class Object : public std::enable_shared_from_this<Object>
+    {
+    public:
+        Object();
+        virtual ~Object();
+        bool isPendingDistroyed() { return m_isPendingDistroyed; }
+        virtual void distroy();
+        weak<Object> getWeakRef();
+        weak<const Object> getWeakRef() const;
+        Delegate<Object*> onDistroy;
+
+    private:
+        bool m_isPendingDistroyed;
     };
 
 }

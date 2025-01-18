@@ -9,6 +9,7 @@ m_moveInput{},
 m_speed{200.f},
 m_shooter{new BulletShooter{this,0.1}}
 {
+    setTeamID(1);
 }
 
 ly::PlayerSpaceShip::~PlayerSpaceShip()

@@ -14,7 +14,7 @@ ly::Application* getApplication()
 namespace ly{
     GameApplication::GameApplication():
         Application{480,640,"light years",sf::Style::Titlebar|sf::Style::Close},
-        counter{0}
+        counter{0.f}
     {
         AssetManager::get().setAssetRootDir(get_resource());
         weak<World> world = loadWorld<World>();
@@ -26,10 +26,18 @@ namespace ly{
         weak<Actor> testSpaceship = s_world->spawnAcotr<SpaceShip>();
         testSpaceship.lock()->setTexture("PNG/playerShip1_blue.png");
         testSpaceship.lock()->setActorLocation(sf::Vector2f(300.f,100.f));
+        testSpaceship.lock()->setTeamID(2);
     }
 }
 
 void ly::GameApplication::tick(float deltaTime)
 {
-    
+    counter += deltaTime;
+    if (counter > 10.f)
+    {
+        if (!testPlayerSpaceShip.expired())
+        {
+            // testPlayerSpaceShip.lock()->distroy();
+        }
+    }
 }

@@ -24,15 +24,19 @@ namespace ly
         float getPhysicsScale() { return m_physicsScale; }
         b2World* getWorld();
 
+        static void cleanup();
+
     protected:
         PhysicsSystem();
 
     private:
+        void processPendingRemoveListeners();
         static unique<PhysicsSystem> physics_system;
         b2World m_physicsWorld;
         float m_physicsScale;
         float m_velocityIteration;
         float m_positionIteration;
         PhysicsContactListener m_contactListener;
+        Set<b2Body*> m_pendingRemoveListeners;
     };
 }

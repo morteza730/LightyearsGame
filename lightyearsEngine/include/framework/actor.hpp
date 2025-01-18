@@ -27,10 +27,26 @@ namespace ly{
             sf::Vector2f getActorForwardDirection();
             sf::Vector2f getActorRightDirection();
             sf::Vector2u getWindowSize() const;
-            World* getWorld() const {return owningWorld;}
+
+            const World* getWorld() const {return owningWorld;}
+            World* getWorld() {return owningWorld;}
+
             bool isActorOutOfWindowsBounds() const;
             sf::FloatRect getActorGlobalBounds() const;
             void setEnablePhysics(bool enable);
+
+            virtual void applyDamage(float amt);
+            virtual void onActorBeginOverlap(Actor* other);
+            virtual void onActorEndOverlap(Actor* other);
+            virtual void distroy() override;
+
+            uint8 getTeamID() const {return m_teamID;}
+            void setTeamID(uint8 teamID){m_teamID = teamID;}
+            static uint8 getNeturalTeamID() {return neturalTeamID;}
+            bool isOtherHostile(Actor* other) const;
+
+            const sf::Sprite& getSprite() const {return m_sprite;}
+            sf::Sprite& getSprite(){return m_sprite;}
 
         protected:
             virtual void beginPlay();
@@ -48,5 +64,9 @@ namespace ly{
             void initializePhysics();
             void uninitializePhysics();
             void updatePhysicsBodyTransform();
+
+            uint8 m_teamID;
+
+            const static uint8 neturalTeamID = 255;
     };
 }

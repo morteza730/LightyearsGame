@@ -1,4 +1,5 @@
 #include <box2d/b2_body.h>
+#include <box2d/b2_contact.h>
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
 
@@ -12,14 +13,35 @@ ly::PhysicsSystem &ly::PhysicsSystem::get()
 {
     if (!physics_system)
     {
-        physics_system = unique<PhysicsSystem>{new PhysicsSystem()};
+        physics_system = std::move(unique<PhysicsSystem>{new PhysicsSystem()});
     }
     return *physics_system;
 }
 
+ly::PhysicsSystem::PhysicsSystem() : m_physicsWorld{b2Vec2{0.f, 0.f}},
+                                     m_physicsScale{0.01f},
+                                     m_velocityIteration{8.f},
+                                     m_positionIteration{3.f},
+                                     m_contactListener{},
+                                     m_pendingRemoveListeners{}
+{
+    m_physicsWorld.SetContactListener(&m_contactListener);
+    m_physicsWorld.SetAllowSleeping(false);
+}
+
 void ly::PhysicsSystem::step(float deltaTime)
 {
+    processPendingRemoveListeners();
     m_physicsWorld.Step(deltaTime, m_velocityIteration, m_positionIteration);
+}
+
+void ly::PhysicsSystem::processPendingRemoveListeners()
+{
+    for (auto listener: m_pendingRemoveListeners)
+    {
+        m_physicsWorld.DestroyBody(listener);
+    }
+    m_pendingRemoveListeners.clear();
 }
 
 b2Body *ly::PhysicsSystem::addListener(Actor *listener)
@@ -43,8 +65,8 @@ b2Body *ly::PhysicsSystem::addListener(Actor *listener)
     fixtureDef.shape = &shape;
     fixtureDef.density = 1.f;
     fixtureDef.friction = 0.3f;
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 1;
+    // fixtureDef.filter.categoryBits = 1;
+    // fixtureDef.filter.maskBits = 1;
     fixtureDef.isSensor = true;
     body->CreateFixture(&fixtureDef);
 
@@ -53,7 +75,7 @@ b2Body *ly::PhysicsSystem::addListener(Actor *listener)
 
 void ly::PhysicsSystem::removeListener(b2Body *bodyToRemove)
 {
-    // TODO: implement removal of physics body.
+    m_pendingRemoveListeners.insert(bodyToRemove);
 }
 
 b2World *ly::PhysicsSystem::getWorld()
@@ -62,22 +84,49 @@ b2World *ly::PhysicsSystem::getWorld()
     return &m_physicsWorld;
 }
 
-ly::PhysicsSystem::PhysicsSystem() : m_physicsWorld{b2Vec2{0.f, 0.f}},
-                                     m_physicsScale{0.01f},
-                                     m_velocityIteration{8.f},
-                                     m_positionIteration{3.f},
-                                     m_contactListener{}
+void ly::PhysicsSystem::cleanup()
 {
-    m_physicsWorld.SetContactListener(&m_contactListener);
-    m_physicsWorld.SetAllowSleeping(false);
+     physics_system = std::move(unique<PhysicsSystem>{new PhysicsSystem()});
 }
 
 void ly::PhysicsContactListener::BeginContact(b2Contact *contact)
 {
-    LOG("Contact");
+    Actor *actorA = reinterpret_cast<Actor *>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+    Actor *actorB = reinterpret_cast<Actor *>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+
+    if (actorA && !actorA->isPendingDistroyed())
+    {
+        actorA->onActorBeginOverlap(actorB);
+    }
+
+    if (actorB && !actorB->isPendingDistroyed())
+    {
+        actorB->onActorBeginOverlap(actorA);
+    }
 }
 
 void ly::PhysicsContactListener::EndContact(b2Contact *contact)
 {
-    LOG("End Contact");
+    Actor* actorA = nullptr;
+    Actor* actorB = nullptr;
+
+    if (contact->GetFixtureA() && contact->GetFixtureA()->GetBody())
+    {
+        actorA = reinterpret_cast<Actor *>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+    }
+
+    if (contact->GetFixtureB() && contact->GetFixtureB()->GetBody())
+    {
+        actorB = reinterpret_cast<Actor *>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+    }
+
+    if (actorA && !actorA->isPendingDistroyed())
+    {
+        actorA->onActorEndOverlap(actorB);
+    }
+
+    if (actorB && !actorB->isPendingDistroyed())
+    {
+        actorB->onActorEndOverlap(actorA);
+    }
 }

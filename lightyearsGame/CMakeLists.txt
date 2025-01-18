@@ -17,6 +17,18 @@ add_executable(${LIGHT_YEARS_GAME_TARGET_NAME}
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/bullet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/bullet.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/gameplay/healthComponent.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/healthComponent.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/vfx/explosion.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/vfx/explosion.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/enemySpaceship.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/enemySpaceship.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/vanguard.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/vanguard.cpp
 	)
 
 target_include_directories(${LIGHT_YEARS_GAME_TARGET_NAME} PUBLIC include)

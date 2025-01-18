@@ -13,7 +13,8 @@ ly::Actor::Actor(World *world,const std::string &texture_path):
     m_texture{nullptr},
     m_sprite{},
     m_physicsBody{nullptr},
-    m_physicsEnable{false}
+    m_physicsEnable{false},
+    m_teamID{getNeturalTeamID()}
 {
     setTexture(texture_path);
 }
@@ -136,6 +137,35 @@ void ly::Actor::setEnablePhysics(bool enable)
     }
 }
 
+void ly::Actor::applyDamage(float amt)
+{
+}
+
+void ly::Actor::onActorBeginOverlap(Actor *other) 
+{
+    LOG("Overlapped");
+}
+
+void ly::Actor::onActorEndOverlap(Actor * other)
+{
+    LOG("Overlap finished");
+}
+
+void ly::Actor::distroy()
+{
+    uninitializePhysics();
+    Object::distroy();
+}
+
+bool ly::Actor::isOtherHostile(Actor *other) const
+{
+    if (this->getTeamID() == getNeturalTeamID() || other->getTeamID() == getNeturalTeamID())
+    {
+        return false;
+    }
+    return (this->getTeamID() != other->getTeamID());
+}
+
 void ly::Actor::initializePhysics()
 {
     if (!m_physicsBody){
@@ -147,6 +177,7 @@ void ly::Actor::uninitializePhysics()
 {
     if (m_physicsBody){
         PhysicsSystem::get().removeListener(m_physicsBody);
+        m_physicsBody = nullptr;;
     }
 }
 

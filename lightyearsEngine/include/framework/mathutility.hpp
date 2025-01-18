@@ -28,4 +28,11 @@ namespace ly{
         scaleVector<T>(vector,1/vectorLenght);
         return vector;
     }
+
+    float lerpFloat(float a,float b, float alpha);
+    sf::Vector2f lerpVector(const sf::Vector2f& a,const sf::Vector2f b, float alpha);
+    sf::Color lerpColor(const sf::Color& a, const sf::Color& b, float alpha);
+
+    float randomRange(float min,float max);
+    sf::Vector2f randomUnitVector();
 }

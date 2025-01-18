@@ -12,5 +12,16 @@ ly::Object::~Object()
 
 void ly::Object::distroy()
 {
+    onDistroy.broadCast(this);
     m_isPendingDistroyed = true;
+}
+
+ly::weak<ly::Object> ly::Object::getWeakRef()
+{
+    return weak_from_this();
+}
+
+ly::weak<const ly::Object> ly::Object::getWeakRef() const
+{
+    return weak_from_this();
 }
