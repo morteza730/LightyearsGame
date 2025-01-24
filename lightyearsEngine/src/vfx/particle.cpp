@@ -12,7 +12,7 @@ void ly::Particle::tick(float deltaTime)
 {
     if (m_timer.getElapsedTime().asSeconds() > m_lifeTime)
     {
-        distroy();
+        destroy();
     }
 
     Actor::tick(deltaTime);

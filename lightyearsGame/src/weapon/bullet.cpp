@@ -24,7 +24,7 @@ void ly::Bullet::tick(float deltaTime)
     move(deltaTime);
     if (isActorOutOfWindowsBounds())
     {
-        distroy();
+        destroy();
     }
 }
 
@@ -44,6 +44,6 @@ void ly::Bullet::onActorBeginOverlap(Actor *other)
     if (isOtherHostile(other))
     {
         other->applyDamage(getDamage());
-        distroy();
+        destroy();
     }
 }

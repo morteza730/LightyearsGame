@@ -31,14 +31,14 @@ namespace ly{
             const World* getWorld() const {return owningWorld;}
             World* getWorld() {return owningWorld;}
 
-            bool isActorOutOfWindowsBounds() const;
+            bool isActorOutOfWindowsBounds(float margin = 10.f) const;
             sf::FloatRect getActorGlobalBounds() const;
             void setEnablePhysics(bool enable);
 
             virtual void applyDamage(float amt);
             virtual void onActorBeginOverlap(Actor* other);
             virtual void onActorEndOverlap(Actor* other);
-            virtual void distroy() override;
+            virtual void destroy() override;
 
             uint8 getTeamID() const {return m_teamID;}
             void setTeamID(uint8 teamID){m_teamID = teamID;}

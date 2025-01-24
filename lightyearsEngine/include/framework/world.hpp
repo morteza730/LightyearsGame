@@ -1,12 +1,14 @@
 #pragma once
 
 #include "framework/core.hpp"
+#include "framework/object.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace ly{
     class Application;
     class Actor;
-    class World{
+    class World: public Object
+    {
         public:
             World(Application *application);
             virtual ~World();
@@ -19,8 +21,8 @@ namespace ly{
             void cleanCycle();
 
         private:
-            void beginPlay();
-            void tick(float deltaTime);
+            virtual void beginPlay();
+            virtual void tick(float deltaTime);
             Application *owningApp;
             bool m_beginPlay;
             List<shared<Actor>> m_pendingActors;

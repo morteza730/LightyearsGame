@@ -26,6 +26,9 @@ add_library(${LIGHT_YEARS_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/delegate.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/delegate.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/timermanager.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/timermanager.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/vfx/particle.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/vfx/particle.cpp
 

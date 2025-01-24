@@ -7,10 +7,10 @@ ly::Object::Object():
 
 ly::Object::~Object()
 {
-    LOG("object distroyed");
+    LOG("object destroyed");
 }
 
-void ly::Object::distroy()
+void ly::Object::destroy()
 {
     onDistroy.broadCast(this);
     m_isPendingDistroyed = true;

@@ -7,24 +7,25 @@
 #include "framework/world.hpp"
 #include "framework/physicssystem.hpp"
 
-ly::Actor::Actor(World *world,const std::string &texture_path):
-    owningWorld{world},
-    m_beginPlay{false},
-    m_texture{nullptr},
-    m_sprite{},
-    m_physicsBody{nullptr},
-    m_physicsEnable{false},
-    m_teamID{getNeturalTeamID()}
+ly::Actor::Actor(World *world, const std::string &texture_path) : owningWorld{world},
+                                                                  m_beginPlay{false},
+                                                                  m_texture{nullptr},
+                                                                  m_sprite{},
+                                                                  m_physicsBody{nullptr},
+                                                                  m_physicsEnable{false},
+                                                                  m_teamID{getNeturalTeamID()}
 {
     setTexture(texture_path);
 }
 
 ly::Actor::~Actor()
-{}
+{
+}
 
 void ly::Actor::beginPlayInternal()
 {
-    if (!m_beginPlay){
+    if (!m_beginPlay)
+    {
         m_beginPlay = true;
         beginPlay();
     }
@@ -38,30 +39,31 @@ void ly::Actor::tick(float deltaTime)
 void ly::Actor::centerPivot()
 {
     sf::Rect<float> bound = m_sprite.getGlobalBounds();
-    m_sprite.setOrigin(bound.width/2.f,bound.height/2.f);
+    m_sprite.setOrigin(bound.width / 2.f, bound.height / 2.f);
 }
 
 void ly::Actor::setTexture(const std::string &texture_path)
 {
     m_texture = AssetManager::get().loadTexture(texture_path);
-    if (!m_texture) return;
+    if (!m_texture)
+        return;
     m_sprite.setTexture(*m_texture);
     int texture_width = m_texture->getSize().x;
     int texture_height = m_texture->getSize().y;
-    m_sprite.setTextureRect(sf::IntRect{sf::Vector2i{},sf::Vector2i{texture_width,texture_height}});
+    m_sprite.setTextureRect(sf::IntRect{sf::Vector2i{}, sf::Vector2i{texture_width, texture_height}});
     centerPivot();
 }
 
 void ly::Actor::render(sf::RenderWindow &window)
 {
-    if (isPendingDistroyed()){
+    if (isPendingDistroyed())
+    {
         return;
     }
     window.draw(m_sprite);
-    
 }
 
-void ly::Actor::setActorLocation(const sf::Vector2f& location)
+void ly::Actor::setActorLocation(const sf::Vector2f &location)
 {
     m_sprite.setPosition(location);
     updatePhysicsBodyTransform();
@@ -75,12 +77,12 @@ void ly::Actor::setActorRotation(float rotation)
 
 void ly::Actor::addActorLocationOffset(const sf::Vector2f &offset)
 {
-    setActorLocation(getActorLocation()+offset);
+    setActorLocation(getActorLocation() + offset);
 }
 
 void ly::Actor::addActorRotationOffset(float offset)
 {
-   setActorRotation(getActorRotaion()+offset);
+    setActorRotation(getActorRotaion() + offset);
 }
 
 sf::Vector2f ly::Actor::getActorLocation() const
@@ -95,7 +97,7 @@ float ly::Actor::getActorRotaion() const
 
 sf::Vector2f ly::Actor::getActorForwardDirection()
 {
-    return rotation2vector(getActorRotaion()-90.f);
+    return rotation2vector(getActorRotaion() - 90.f);
 }
 sf::Vector2f ly::Actor::getActorRightDirection()
 {
@@ -107,18 +109,23 @@ sf::Vector2u ly::Actor::getWindowSize() const
     return owningWorld->getWindowSize();
 }
 
-bool ly::Actor::isActorOutOfWindowsBounds() const
+bool ly::Actor::isActorOutOfWindowsBounds(float margin) const
 {
     const float windows_width = getWindowSize().x;
     const float windows_height = getWindowSize().y;
     const float width = getActorGlobalBounds().width;
     const float height = getActorGlobalBounds().height;
     const sf::Vector2f current_location = getActorLocation();
-    if (current_location.x<-width || current_location.x>windows_width + width){
+
+    if (current_location.x < -width - margin)
         return true;
-    }else if (current_location.y<-height || current_location.y>windows_height + height){
+    if (current_location.x > windows_width + width + margin)
         return true;
-    }
+    if (current_location.y < -height - margin)
+        return true;
+    if (current_location.y > windows_height + height + margin)
+        return true;
+
     return false;
 }
 
@@ -130,9 +137,12 @@ sf::FloatRect ly::Actor::getActorGlobalBounds() const
 void ly::Actor::setEnablePhysics(bool enable)
 {
     m_physicsEnable = enable;
-    if (m_physicsEnable){
+    if (m_physicsEnable)
+    {
         initializePhysics();
-    }else{
+    }
+    else
+    {
         uninitializePhysics();
     }
 }
@@ -141,24 +151,27 @@ void ly::Actor::applyDamage(float amt)
 {
 }
 
-void ly::Actor::onActorBeginOverlap(Actor *other) 
+void ly::Actor::onActorBeginOverlap(Actor *other)
 {
     LOG("Overlapped");
 }
 
-void ly::Actor::onActorEndOverlap(Actor * other)
+void ly::Actor::onActorEndOverlap(Actor *other)
 {
     LOG("Overlap finished");
 }
 
-void ly::Actor::distroy()
+void ly::Actor::destroy()
 {
     uninitializePhysics();
-    Object::distroy();
+    Object::destroy();
 }
 
 bool ly::Actor::isOtherHostile(Actor *other) const
 {
+    if (other == nullptr)
+        return false;
+
     if (this->getTeamID() == getNeturalTeamID() || other->getTeamID() == getNeturalTeamID())
     {
         return false;
@@ -168,27 +181,31 @@ bool ly::Actor::isOtherHostile(Actor *other) const
 
 void ly::Actor::initializePhysics()
 {
-    if (!m_physicsBody){
+    if (!m_physicsBody)
+    {
         m_physicsBody = PhysicsSystem::get().addListener(this);
     }
 }
 
 void ly::Actor::uninitializePhysics()
 {
-    if (m_physicsBody){
+    if (m_physicsBody)
+    {
         PhysicsSystem::get().removeListener(m_physicsBody);
-        m_physicsBody = nullptr;;
+        m_physicsBody = nullptr;
+        ;
     }
 }
 
 void ly::Actor::updatePhysicsBodyTransform()
 {
-    if (m_physicsBody){
+    if (m_physicsBody)
+    {
         float physicsSclale = PhysicsSystem::get().getPhysicsScale();
-        b2Vec2 pos{getActorLocation().x*physicsSclale,getActorLocation().y*physicsSclale};
+        b2Vec2 pos{getActorLocation().x * physicsSclale, getActorLocation().y * physicsSclale};
         float rotation = degree2raduis(getActorRotaion());
 
-        m_physicsBody->SetTransform(pos,rotation);
+        m_physicsBody->SetTransform(pos, rotation);
     }
 }
 
@@ -199,7 +216,8 @@ void ly::Actor::beginPlay()
 
 void ly::Actor::tickInternal(float deltaTime)
 {
-    if (isPendingDistroyed()){
+    if (isPendingDistroyed())
+    {
         return;
     }
     tick(deltaTime);

@@ -1,8 +1,8 @@
 #include <framework/mathutility.hpp>
-#include "spaceship/spaceship.hpp"
+#include "Spaceship/Spaceship.hpp"
 #include "vfx/explosion.hpp"
 
-ly::SpaceShip::SpaceShip(World *world, const std::string &texture_path) : Actor(world, texture_path),
+ly::Spaceship::Spaceship(World *world, const std::string &texture_path) : Actor(world, texture_path),
                                                                           m_healthComponent{100.f, 100.f},
                                                                           m_blinkTime{0.f},
                                                                           m_blinkDuration{0.2f},
@@ -10,42 +10,42 @@ ly::SpaceShip::SpaceShip(World *world, const std::string &texture_path) : Actor(
 {
 }
 
-void ly::SpaceShip::tick(float deltaTime)
+void ly::Spaceship::tick(float deltaTime)
 {
     Actor::tick(deltaTime);
     addActorLocationOffset(deltaTime * getVelocity());
     updateBlink(deltaTime);
 }
 
-void ly::SpaceShip::setVelocity(const sf::Vector2f &new_velocity)
+void ly::Spaceship::setVelocity(const sf::Vector2f &new_velocity)
 {
     m_velocity = new_velocity;
 }
 
-void ly::SpaceShip::shoot()
+void ly::Spaceship::shoot()
 {
 }
 
-void ly::SpaceShip::beginPlay()
+void ly::Spaceship::beginPlay()
 {
     Actor::beginPlay();
     setEnablePhysics(true);
 
-    m_healthComponent.onHealthChanged.bindAction(getWeakRef(), &SpaceShip::onHealthChanged);
-    m_healthComponent.onTakenDamage.bindAction(getWeakRef(), &SpaceShip::onTakenDamage);
-    m_healthComponent.onHealthEmpty.bindAction(getWeakRef(), &SpaceShip::blow);
+    m_healthComponent.onHealthChanged.bindAction(getWeakRef(), &Spaceship::onHealthChanged);
+    m_healthComponent.onTakenDamage.bindAction(getWeakRef(), &Spaceship::onTakenDamage);
+    m_healthComponent.onHealthEmpty.bindAction(getWeakRef(), &Spaceship::blow);
 }
 
-void ly::SpaceShip::applyDamage(float amt)
+void ly::Spaceship::applyDamage(float amt)
 {
     m_healthComponent.changeHealth(-amt);
 }
 
-void ly::SpaceShip::onHealthChanged(float amt, float health, float maxHealth)
+void ly::Spaceship::onHealthChanged(float amt, float health, float maxHealth)
 {
 }
 
-void ly::SpaceShip::blink()
+void ly::Spaceship::blink()
 {
     if (m_blinkTime == 0)
     {
@@ -53,7 +53,7 @@ void ly::SpaceShip::blink()
     }
 }
 
-void ly::SpaceShip::updateBlink(float deltaTime)
+void ly::Spaceship::updateBlink(float deltaTime)
 {
     if (m_blinkTime <= 0)
         return;
@@ -65,15 +65,15 @@ void ly::SpaceShip::updateBlink(float deltaTime)
     getSprite().setColor(blinkColor);
 }
 
-void ly::SpaceShip::onTakenDamage(float amt, float health, float maxHealth)
+void ly::Spaceship::onTakenDamage(float amt, float health, float maxHealth)
 {
     blink();
 }
 
-void ly::SpaceShip::blow()
+void ly::Spaceship::blow()
 {
     Explosion *explosion = new Explosion();
     explosion->spawnExplosion(getWorld(), getActorLocation());
-    distroy();
+    destroy();
     delete explosion;
 }

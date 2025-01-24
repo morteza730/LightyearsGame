@@ -3,11 +3,11 @@ add_executable(${LIGHT_YEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/include/gameFramework/gameApplication.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameFramework/gameApplication.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/spaceship/spaceship.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/spaceship.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Spaceship/Spaceship.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Spaceship/Spaceship.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/player/playerspaceship.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/player/playerspaceship.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/player/playerSpaceship.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player/playerSpaceship.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/shooter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/shooter.cpp
@@ -29,6 +29,9 @@ add_executable(${LIGHT_YEARS_GAME_TARGET_NAME}
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/vanguard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/vanguard.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/level/gameLevelOne.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/level/gameLevelOne.cpp
 	)
 
 target_include_directories(${LIGHT_YEARS_GAME_TARGET_NAME} PUBLIC include)
