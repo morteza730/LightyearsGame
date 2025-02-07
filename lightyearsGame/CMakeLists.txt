@@ -30,6 +30,27 @@ add_executable(${LIGHT_YEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/vanguard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/vanguard.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/vanguardStage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/vanguardStage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/twinBlade.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/twinBlade.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/twinBladeStage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/twinBladeStage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/hexagon.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/hexagon.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/hexagonStage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/hexagonStage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/ufo.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/ufo.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/ufoStage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/ufoStage.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/level/gameLevelOne.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/level/gameLevelOne.cpp
 	)

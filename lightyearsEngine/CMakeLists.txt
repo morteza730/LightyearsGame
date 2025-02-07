@@ -32,6 +32,12 @@ add_library(${LIGHT_YEARS_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include/vfx/particle.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/vfx/particle.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/gameplay/gamestage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/gamestage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/gameplay/waitstage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/waitstage.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/entrypoint.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/entrypoint.cpp
 	)

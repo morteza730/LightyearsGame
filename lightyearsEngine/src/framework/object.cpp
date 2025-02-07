@@ -7,7 +7,7 @@ ly::Object::Object():
 
 ly::Object::~Object()
 {
-    LOG("object destroyed");
+    // LOG("object destroyed");
 }
 
 void ly::Object::destroy()

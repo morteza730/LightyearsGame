@@ -1,9 +1,7 @@
 #include "enemy/enemySpaceship.hpp"
 
-
-ly::EnemySpaceship::EnemySpaceship(World *world, const std::string &texture_path, float collisionDamage):
-    Spaceship(world,texture_path),
-    m_collisionDamage(collisionDamage)
+ly::EnemySpaceship::EnemySpaceship(World *world, const std::string &texture_path, float collisionDamage) : Spaceship(world, texture_path),
+                                                                                                           m_collisionDamage(collisionDamage)
 {
     setTeamID(2);
 }
@@ -11,7 +9,7 @@ ly::EnemySpaceship::EnemySpaceship(World *world, const std::string &texture_path
 void ly::EnemySpaceship::tick(float deltaTime)
 {
     Spaceship::tick(deltaTime);
-    if (isActorOutOfWindowsBounds(getActorGlobalBounds().width))
+    if (isActorOutOfWindowsBounds(getActorGlobalBounds().width * 2.f))
     {
         destroy();
     }

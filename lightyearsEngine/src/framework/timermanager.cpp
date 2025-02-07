@@ -1,8 +1,21 @@
 #include "framework/timermanager.hpp"
 
+
 namespace ly
 {
     unique<TimerManager> TimerManager::timerManager{nullptr};
+    unsigned int TimerHandle::timerKeyCounter = 0;
+
+    bool operator==(const TimerHandle & lhs, const TimerHandle & rhs)
+    {
+        return lhs.getTimerKey() == rhs.getTimerKey();
+    }
+}
+
+
+ly::TimerHandle::TimerHandle()
+    : m_timerKey(getNextTimerKey())
+{
 }
 
 ly::Timer::Timer(weak<Object> weakRef, std::function<void()> callback, float duratioin, float repeat)
@@ -38,7 +51,7 @@ void ly::Timer::tickTime(float deltaTime)
 
 bool ly::Timer::expired() const
 {
-    return m_isExpired || m_listener.first.expired() || m_listener.first.lock() -> isPendingDistroyed();
+    return m_isExpired || m_listener.first.expired() || m_listener.first.lock()->isPendingDistroyed();
 }
 
 void ly::Timer::setExpired()
@@ -50,11 +63,28 @@ ly::TimerManager::TimerManager()
 {
 }
 
+void ly::TimerManager::clearTimer(TimerHandle timerHandle)
+{
+    auto iter = m_timers.find(timerHandle);
+    if (iter == m_timers.end())
+        return;
+
+    iter->second.setExpired();
+}
+
 void ly::TimerManager::updateTimer(float deltaTime)
 {
-    for (Timer& timer: m_timers)
+    for (auto iter = m_timers.begin(); iter != m_timers.end();)
     {
-        timer.tickTime(deltaTime);
+        if (iter->second.expired())
+        {
+            iter = m_timers.erase(iter);
+        }
+        else
+        {
+            iter->second.tickTime(deltaTime);
+            ++iter;
+        }
     }
 }
 

@@ -7,13 +7,14 @@
 #include "framework/world.hpp"
 #include "framework/physicssystem.hpp"
 
-ly::Actor::Actor(World *world, const std::string &texture_path) : owningWorld{world},
-                                                                  m_beginPlay{false},
-                                                                  m_texture{nullptr},
-                                                                  m_sprite{},
-                                                                  m_physicsBody{nullptr},
-                                                                  m_physicsEnable{false},
-                                                                  m_teamID{getNeturalTeamID()}
+ly::Actor::Actor(World *world, const std::string &texture_path)
+    : owningWorld{world},
+      m_beginPlay{false},
+      m_texture{nullptr},
+      m_sprite{},
+      m_physicsBody{nullptr},
+      m_physicsEnable{false},
+      m_teamID{getNeturalTeamID()}
 {
     setTexture(texture_path);
 }
@@ -153,12 +154,12 @@ void ly::Actor::applyDamage(float amt)
 
 void ly::Actor::onActorBeginOverlap(Actor *other)
 {
-    LOG("Overlapped");
+    // LOG("Overlapped");
 }
 
 void ly::Actor::onActorEndOverlap(Actor *other)
 {
-    LOG("Overlap finished");
+    // LOG("Overlap finished");
 }
 
 void ly::Actor::destroy()

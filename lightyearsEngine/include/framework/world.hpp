@@ -7,6 +7,7 @@
 namespace ly{
     class Application;
     class Actor;
+    class GameStage;
     class World: public Object
     {
         public:
@@ -19,6 +20,7 @@ namespace ly{
             weak<actorType> spawnAcotr(Args... args);
             sf::Vector2u getWindowSize() const;
             void cleanCycle();
+            void addStage(const shared<GameStage>& newStage);
 
         private:
             virtual void beginPlay();
@@ -27,6 +29,12 @@ namespace ly{
             bool m_beginPlay;
             List<shared<Actor>> m_pendingActors;
             List<shared<Actor>> m_actors;
+            List<shared<GameStage>> m_gameStages;
+            List<shared<GameStage>>::iterator m_currentStage;
+            virtual void initGameStages();
+            void nextGameStage();
+            virtual void allGameStageFinished();
+            void startStages();
     };
     template<typename actorType,typename... Args>
     weak<actorType> World::spawnAcotr(Args... args){

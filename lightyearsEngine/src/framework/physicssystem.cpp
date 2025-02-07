@@ -65,8 +65,6 @@ b2Body *ly::PhysicsSystem::addListener(Actor *listener)
     fixtureDef.shape = &shape;
     fixtureDef.density = 1.f;
     fixtureDef.friction = 0.3f;
-    // fixtureDef.filter.categoryBits = 1;
-    // fixtureDef.filter.maskBits = 1;
     fixtureDef.isSensor = true;
     body->CreateFixture(&fixtureDef);
 

@@ -6,12 +6,13 @@
 #include "framework/physicssystem.hpp"
 #include "framework/timermanager.hpp"
 
-ly::Application::Application(unsigned int width, unsigned int height, std::string title, sf::Uint32 style) : m_window(sf::VideoMode(width, height), title, style),
-                                                                                                             m_frameRate(float{60}),
-                                                                                                             m_tickClock(),
-                                                                                                             currentWorld(nullptr),
-                                                                                                             m_cleanCycleClock{},
-                                                                                                             m_cleanCycleInterval{2.f}
+ly::Application::Application(unsigned int width, unsigned int height, std::string title, sf::Uint32 style)
+    : m_window(sf::VideoMode(width, height), title, style),
+      m_frameRate(float{60}),
+      m_tickClock(),
+      currentWorld(nullptr),
+      m_cleanCycleClock{},
+      m_cleanCycleInterval{2.f}
 {
 }
 

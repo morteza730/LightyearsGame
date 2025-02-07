@@ -7,7 +7,7 @@ ly::PlayerSpaceship::PlayerSpaceship(World *world, const std::string &texture_pa
 Spaceship(world,texture_path),
 m_moveInput{},
 m_speed{200.f},
-m_shooter{new BulletShooter{this,0.1}}
+m_shooter{new BulletShooter{this,0.1,{50.f,0.f}}}
 {
     setTeamID(1);
 }
