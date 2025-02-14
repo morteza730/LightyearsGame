@@ -9,11 +9,26 @@ add_executable(${LIGHT_YEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/include/player/playerSpaceship.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/player/playerSpaceship.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/player/reward.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player/reward.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/player/player.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player/player.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/player/playerManager.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player/playerManager.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/shooter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/shooter.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/bulletshooter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/bulletshooter.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/threeWayShooter.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/threeWayShooter.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/FrontalWiper.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/FrontalWiper.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/bullet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/bullet.cpp

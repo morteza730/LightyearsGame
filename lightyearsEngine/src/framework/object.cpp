@@ -12,7 +12,7 @@ ly::Object::~Object()
 
 void ly::Object::destroy()
 {
-    onDistroy.broadCast(this);
+    onDestroy.broadCast(this);
     m_isPendingDistroyed = true;
 }
 

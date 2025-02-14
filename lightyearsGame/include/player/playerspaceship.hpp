@@ -3,7 +3,7 @@
 #include "Spaceship/Spaceship.hpp"
 
 namespace ly{
-    class BulletShooter;
+    class Shooter;
     class PlayerSpaceship:public Spaceship
     {
         public:
@@ -13,7 +13,7 @@ namespace ly{
             float getSpeed() const {return m_speed;}
             void setSpeed(float new_speed){m_speed = new_speed;}
             virtual void shoot() override;
-
+            void setShooter(unique<Shooter> &&newShooter);
         private:
             void handleInput();
             void consumeInput();
@@ -21,6 +21,6 @@ namespace ly{
             void clampInputOnEdge();
             sf::Vector2f m_moveInput;
             float m_speed;
-            unique<BulletShooter> m_shooter;
+            unique<Shooter> m_shooter;
     };
 }

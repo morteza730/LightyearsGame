@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "object.hpp"
 #include "framework/core.hpp"
+#include "framework/delegate.hpp"
 
 class b2Body;
 
@@ -47,6 +48,8 @@ namespace ly{
 
             const sf::Sprite& getSprite() const {return m_sprite;}
             sf::Sprite& getSprite(){return m_sprite;}
+
+            Delegate<Actor*> onActorDestoryed;
 
         protected:
             virtual void beginPlay();

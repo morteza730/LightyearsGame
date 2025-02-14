@@ -9,14 +9,17 @@
 #include <gameplay/waitstage.hpp>
 #include <gameplay/gamestage.hpp>
 #include "player/playerSpaceship.hpp"
+#include "player/playerManager.hpp"
 
 ly::GameLevelOne::GameLevelOne(Application *application) : World{application}
 {
-    testPlayerSpaceship = spawnAcotr<PlayerSpaceship>();
-    testPlayerSpaceship.lock()->setActorLocation(sf::Vector2f(240, 320));
 }
+
 void ly::GameLevelOne::beginPlay()
 {
+    Player newPlayer = PlayerManager::get().createNewPlayer();
+    m_playerSpaceship = newPlayer.spawnSpaceShip(this);
+    m_playerSpaceship.lock()->onActorDestoryed.bindAction(getWeakRef(),&GameLevelOne::handleSpaceshipDestruction);
 }
 
 void ly::GameLevelOne::initGameStages()
@@ -32,4 +35,19 @@ void ly::GameLevelOne::initGameStages()
 
     addStage(shared<WaitStage>{new WaitStage{this, 5.f}});
     addStage(shared<TwinBladeStage>{new TwinBladeStage{this}});
+}
+
+void ly::GameLevelOne::handleSpaceshipDestruction(Actor * destroyedSpaceship)
+{
+    m_playerSpaceship = PlayerManager::get().getPlayer()->spawnSpaceShip(this);
+
+    if (m_playerSpaceship.expired())
+        gameOver();
+    else
+        m_playerSpaceship.lock()->onActorDestoryed.bindAction(getWeakRef(),&GameLevelOne::handleSpaceshipDestruction);
+}
+
+void ly::GameLevelOne::gameOver()
+{
+    LOG("GAME OVER ..............................");
 }

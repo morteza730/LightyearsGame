@@ -2,11 +2,12 @@
 #include "Spaceship/Spaceship.hpp"
 #include "vfx/explosion.hpp"
 
-ly::Spaceship::Spaceship(World *world, const std::string &texture_path) : Actor(world, texture_path),
-                                                                          m_healthComponent{100.f, 100.f},
-                                                                          m_blinkTime{0.f},
-                                                                          m_blinkDuration{0.2f},
-                                                                          m_blinkColorOffset{255, 0, 0, 255}
+ly::Spaceship::Spaceship(World *world, const std::string &texture_path)
+    : Actor(world, texture_path),
+      m_healthComponent{100.f, 100.f},
+      m_blinkTime{0.f},
+      m_blinkDuration{0.2f},
+      m_blinkColorOffset{255, 0, 0, 255}
 {
 }
 
@@ -61,7 +62,7 @@ void ly::Spaceship::updateBlink(float deltaTime)
     m_blinkTime -= deltaTime;
     m_blinkTime = (m_blinkTime > 0) ? m_blinkTime : 0.f;
 
-    sf::Color blinkColor = lerpColor(sf::Color::White,m_blinkColorOffset,m_blinkTime);
+    sf::Color blinkColor = lerpColor(sf::Color::White, m_blinkColorOffset, m_blinkTime);
     getSprite().setColor(blinkColor);
 }
 
@@ -74,6 +75,10 @@ void ly::Spaceship::blow()
 {
     Explosion *explosion = new Explosion();
     explosion->spawnExplosion(getWorld(), getActorLocation());
+    blew();
     destroy();
     delete explosion;
+}
+void ly::Spaceship::blew()
+{
 }

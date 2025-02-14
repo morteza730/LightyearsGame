@@ -165,6 +165,7 @@ void ly::Actor::onActorEndOverlap(Actor *other)
 void ly::Actor::destroy()
 {
     uninitializePhysics();
+    onActorDestoryed.broadCast(this);
     Object::destroy();
 }
 

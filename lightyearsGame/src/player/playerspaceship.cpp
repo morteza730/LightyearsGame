@@ -1,7 +1,7 @@
 #include "player/playerSpaceship.hpp"
 #include <SFML/System.hpp>
 #include <framework/mathutility.hpp>
-#include "weapon/bulletshooter.hpp"
+#include "weapon/frontalWiper.hpp"
 
 ly::PlayerSpaceship::PlayerSpaceship(World *world, const std::string &texture_path):
 Spaceship(world,texture_path),
@@ -28,6 +28,17 @@ void ly::PlayerSpaceship::shoot()
     if (m_shooter){
         m_shooter->shoot();
     }
+}
+
+void ly::PlayerSpaceship::setShooter(unique<Shooter>&& newShooter)
+{
+    if (m_shooter && typeid(*m_shooter.get()) == typeid(*newShooter.get()))
+    {
+        m_shooter->increaseLevel();
+        return;
+    }
+
+    m_shooter = std::move(newShooter);
 }
 
 void ly::PlayerSpaceship::handleInput()

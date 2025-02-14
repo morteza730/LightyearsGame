@@ -14,12 +14,14 @@ namespace ly{
             virtual void shoot();
             virtual void beginPlay() override;
             virtual void applyDamage(float amt) override;
+            HealthComponent &getHealthComponent() {return m_healthComponent;}
         private:
             void blink();
             void updateBlink(float deltaTime);
             virtual void onHealthChanged(float amt,float health,float maxHealth);
             virtual void onTakenDamage(float amt,float health,float maxHealth);
-            virtual void blow();
+            void blow();
+            virtual void blew();
             HealthComponent m_healthComponent;
             sf::Vector2f m_velocity;
 

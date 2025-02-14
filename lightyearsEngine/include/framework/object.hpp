@@ -15,7 +15,7 @@ namespace ly
         virtual void destroy();
         weak<Object> getWeakRef();
         weak<const Object> getWeakRef() const;
-        Delegate<Object*> onDistroy;
+        Delegate<Object*> onDestroy;
 
     private:
         bool m_isPendingDistroyed;

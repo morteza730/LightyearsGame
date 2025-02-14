@@ -1,18 +1,27 @@
 #pragma once
 
-namespace ly{
+namespace ly
+{
     class Actor;
-    class Shooter{
-        public:
-            void shoot();
-            virtual bool canShoot() const {return true;}
-            virtual bool isOnCoolDown() const {return false;}
-            Actor* getOwner() const {return m_owner;}
-        protected:
-            Shooter(Actor *owner);
+    class Shooter
+    {
+    public:
+        void shoot();
+        virtual bool canShoot() const { return true; }
+        virtual bool isOnCoolDown() const { return false; }
+        Actor *getOwner() const { return m_owner; }
+        int getCurrentLevel() const { return m_currentLevel; }
+        int getMaxLevel() const { return m_maxLevel; }
+        virtual void increaseLevel(int amt = 0);
+        bool isMaxLevel() const { return m_currentLevel == m_maxLevel; }
 
-        private:
-            Actor *m_owner;
-            virtual void shootImp()=0;
+    protected:
+        Shooter(Actor *owner);
+
+    private:
+        virtual void shootImp() = 0;
+        Actor *m_owner;
+        int m_currentLevel;
+        int m_maxLevel;
     };
 }
