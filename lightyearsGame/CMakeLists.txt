@@ -66,8 +66,26 @@ add_executable(${LIGHT_YEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/ufoStage.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/ufoStage.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/chaosStage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/chaosStage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/boss.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/boss.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/enemy/bossStage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/enemy/bossStage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/gameplayHUD.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/gameplayHUD.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/mainMenuHUD.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/mainMenuHUD.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/level/gameLevelOne.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/level/gameLevelOne.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/level/mainMenuLevel.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/level/mainMenuLevel.cpp
 	)
 
 target_include_directories(${LIGHT_YEARS_GAME_TARGET_NAME} PUBLIC include)

@@ -11,7 +11,9 @@ namespace ly
         FrontalWiper(Actor *owner,
                      float coolDownTime = 1.f,
                      const sf::Vector2f &localOffset = {0.f, 0.f},
+                     float rotationalOffset = 0,
                      float width = 60.f);
+        virtual void setCurrentLevel(int level) override;
 
     private:
         virtual void increaseLevel(int amt) override;

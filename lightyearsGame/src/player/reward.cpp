@@ -1,4 +1,5 @@
 #include "player/reward.hpp"
+#include "player/playerManager.hpp"
 #include "player/playerspaceship.hpp"
 #include "weapon/threeWayShooter.hpp"
 #include "weapon/FrontalWiper.hpp"
@@ -6,8 +7,8 @@
 
 ly::Reward::Reward(World *world, const std::string &texture_path, RewardFunc rewardFunc, float speed)
     : Actor{world, texture_path},
-    m_rewardFunc{rewardFunc},
-    m_speed{speed}
+      m_rewardFunc{rewardFunc},
+      m_speed{speed}
 {
 }
 
@@ -25,33 +26,49 @@ void ly::Reward::tick(float deltaTime)
 
 void ly::Reward::onActorBeginOverlap(Actor *other)
 {
-    PlayerSpaceship *playerSpaceship = dynamic_cast<PlayerSpaceship *>(other);
-
-    if (playerSpaceship == nullptr || playerSpaceship->isPendingDistroyed())
+    if (!other || other->isPendingDistroyed())
         return;
 
-    m_rewardFunc(playerSpaceship);
-    destroy();
+    Player *player = PlayerManager::get().getPlayer();
+
+    if (!player || player->isPendingDistroyed())
+        return;
+
+    weak<PlayerSpaceship> playerSpaceship = player->getCurrentSpaceship();
+
+    if (playerSpaceship.expired() || playerSpaceship.lock()->isPendingDistroyed())
+        return;
+
+    if (playerSpaceship.lock()->getUniqueID() == other->getUniqueID())
+    {
+        m_rewardFunc(playerSpaceship.lock().get());
+        destroy();
+    }
 }
 
 ly::weak<ly::Reward> ly::createHealthReward(World *world)
 {
-    return createReward(world,"PNG/Power-ups/pill_green.png",rewardHealth);
+    return createReward(world, "PNG/Power-ups/pill_green.png", rewardHealth);
+}
+
+ly::weak<ly::Reward> ly::createLifeReward(World *world)
+{
+    return createReward(world, "PNG/UI/playerLife1_blue.png", rewardLife);
 }
 
 ly::weak<ly::Reward> ly::createThreeWayShooterReward(World *world)
 {
-    return createReward(world,"PNG/Power-ups/bolt_gold.png",rewardThreeWayShooter);
+    return createReward(world, "PNG/Power-ups/bolt_gold.png", rewardThreeWayShooter);
 }
 
 ly::weak<ly::Reward> ly::createFrontalWiperReward(World *world)
 {
-    return createReward(world,"PNG/Power-ups/shield_gold.png",rewardFrontalWiper);
+    return createReward(world, "PNG/Power-ups/shield_gold.png", rewardFrontalWiper);
 }
 
 ly::weak<ly::Reward> ly::createReward(World *world, const std::string &texturePath, RewardFunc rewardFunc)
 {
-    weak<Reward> reward = world->spawnAcotr<Reward>(texturePath,rewardFunc);
+    weak<Reward> reward = world->spawnAcotr<Reward>(texturePath, rewardFunc);
     return reward;
 }
 
@@ -63,6 +80,14 @@ void ly::rewardHealth(PlayerSpaceship *player)
         return;
 
     player->getHealthComponent().changeHealth(rewardAmt);
+}
+
+void ly::rewardLife(PlayerSpaceship *player)
+{
+    if (!PlayerManager::get().getPlayer())
+        return;
+
+    PlayerManager::get().getPlayer()->addLifeCount(1);
 }
 
 void ly::rewardThreeWayShooter(PlayerSpaceship *player)

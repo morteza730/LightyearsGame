@@ -1,7 +1,6 @@
 #include "gameplay/healthComponent.hpp"
 #include <framework/core.hpp>
 
-
 ly::HealthComponent::HealthComponent(float health, float maxHealth) : m_health{health},
                                                                       m_maxHealth{maxHealth}
 {
@@ -24,6 +23,8 @@ void ly::HealthComponent::changeHealth(float amt)
         m_health = m_maxHealth;
     }
 
+    onHealthChanged.broadCast(amt,m_health,m_maxHealth);
+    
     if (amt < 0)
     {
         takenDamage(-amt);
@@ -32,7 +33,12 @@ void ly::HealthComponent::changeHealth(float amt)
             healthEmpty();
         }
     }
-    onHealthChanged.broadCast(amt,m_health,m_maxHealth);
+}
+
+void ly::HealthComponent::setInitialHealth(float health, float maxHealth)
+{
+    m_health = health;
+    m_maxHealth = maxHealth;
 }
 
 void ly::HealthComponent::takenDamage(float amt)

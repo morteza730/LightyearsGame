@@ -9,6 +9,7 @@ namespace ly{
             void changeHealth(float amt);
             float getHealth(){return m_health;}
             float getMaxHealth(){return m_maxHealth;}
+            void setInitialHealth(float health, float maxHealth);
 
             Delegate<float,float,float> onHealthChanged;
             Delegate<float,float,float> onTakenDamage;

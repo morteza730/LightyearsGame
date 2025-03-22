@@ -9,7 +9,7 @@ namespace ly
     class Reward;
     using RewardFunc = std::function<void(PlayerSpaceship *)>;
     using RewardFactoryFunc = std::function<weak<Reward>(World *)>;
-    
+
     class Reward : public Actor
     {
     public:
@@ -26,10 +26,12 @@ namespace ly
     weak<Reward> createHealthReward(World *world);
     weak<Reward> createThreeWayShooterReward(World *world);
     weak<Reward> createFrontalWiperReward(World *world);
+    weak<Reward> createLifeReward(World *world);
 
     weak<Reward> createReward(World *world, const std::string &texturePath, RewardFunc rewardFunc);
 
     void rewardHealth(PlayerSpaceship *player);
+    void rewardLife(PlayerSpaceship *player);
     void rewardThreeWayShooter(PlayerSpaceship *player);
     void rewardFrontalWiper(PlayerSpaceship *player);
 }

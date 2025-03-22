@@ -15,10 +15,15 @@ namespace ly
         virtual void destroy();
         weak<Object> getWeakRef();
         weak<const Object> getWeakRef() const;
-        Delegate<Object*> onDestroy;
+        const unsigned int getUniqueID() { return m_uniqueID; }
+        Delegate<Object *> onDestroy;
 
     private:
         bool m_isPendingDistroyed;
+        unsigned int m_uniqueID;
+
+        static unsigned int getNextAvailableID();
+        static unsigned int uniqueIDCounter;
     };
 
 }

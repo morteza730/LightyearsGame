@@ -1,4 +1,4 @@
-#include "level/gameLevelOne.hpp"
+#include "level/mainMenuLevel.hpp"
 #include <framework/core.hpp>
 #include <framework/assetmanager.hpp>
 #include "gameFramework/gameApplication.hpp"
@@ -14,6 +14,6 @@ namespace ly{
         Application{480,640,"light years",sf::Style::Titlebar|sf::Style::Close}
     {
         AssetManager::get().setAssetRootDir(get_resource());
-        weak<World> world = loadWorld<GameLevelOne>();
+        weak<World> world = loadWorld<MainMenuLevel>();
     }
 }

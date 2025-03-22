@@ -14,6 +14,7 @@ ly::weak<ly::PlayerSpaceship> ly::Player::spawnSpaceShip(World *world)
     if (m_lifeCount == 0)
     {
         onLifeExhausted.broadCast();
+        m_currentSpaceship = weak<ly::PlayerSpaceship>{};
         return weak<ly::PlayerSpaceship>{};
     }
 

@@ -13,6 +13,7 @@ namespace ly
         int getCurrentLevel() const { return m_currentLevel; }
         int getMaxLevel() const { return m_maxLevel; }
         virtual void increaseLevel(int amt = 0);
+        virtual void setCurrentLevel(int level);
         bool isMaxLevel() const { return m_currentLevel == m_maxLevel; }
 
     protected:

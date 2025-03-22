@@ -16,7 +16,13 @@ void ly::Shooter::increaseLevel(int amt)
     m_currentLevel++;
 }
 
-void ly::Shooter::shoot(){
+void ly::Shooter::setCurrentLevel(int level)
+{
+    m_currentLevel = level;
+}
+
+void ly::Shooter::shoot()
+{
     if (canShoot() && !isOnCoolDown()){
         shootImp();
     }

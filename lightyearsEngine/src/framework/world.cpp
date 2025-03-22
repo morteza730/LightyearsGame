@@ -3,10 +3,11 @@
 #include "framework/actor.hpp"
 #include "framework/application.hpp"
 #include "gameplay/gamestage.hpp"
+#include "widgets/hud.hpp"
 
 ly::World::World(Application *application)
     : m_beginPlay{false},
-      owningApp{application},
+      m_owningApp{application},
       m_actors{},
       m_pendingActors{},
       m_gameStages{},
@@ -50,6 +51,14 @@ void ly::World::tickInternal(float deltaTime)
     }
 
     tick(deltaTime);
+
+    if (m_hud)
+    {
+        if (!m_hud->hasInit())
+            m_hud->nativeInit(m_owningApp->getWindow());
+
+        m_hud->tick(deltaTime);
+    }
 }
 
 void ly::World::render(sf::RenderWindow &window)
@@ -58,11 +67,13 @@ void ly::World::render(sf::RenderWindow &window)
     {
         actor->render(window);
     }
+
+    renderHud(window);
 }
 
 sf::Vector2u ly::World::getWindowSize() const
 {
-    return owningApp->getWindowSize();
+    return m_owningApp->getWindowSize();
 }
 
 void ly::World::cleanCycle()
@@ -120,7 +131,26 @@ void ly::World::allGameStageFinished()
 
 void ly::World::startStages()
 {
+    if (m_gameStages.empty())
+        return;
+    
     m_currentStage = m_gameStages.begin();
     m_currentStage->get()->startStage();
     m_currentStage->get()->onStageFinished.bindAction(getWeakRef(), &World::nextGameStage);
+}
+
+void ly::World::renderHud(sf::RenderWindow &window)
+{
+    if (!m_hud)
+        return;
+
+    m_hud->draw(window);
+}
+
+bool ly::World::dispatchEvent(const sf::Event &event)
+{
+    if (!m_hud)
+        return false;
+
+    return m_hud->handleEvent(event);
 }

@@ -10,7 +10,7 @@ ly::Application::Application(unsigned int width, unsigned int height, std::strin
     : m_window(sf::VideoMode(width, height), title, style),
       m_frameRate(float{60}),
       m_tickClock(),
-      currentWorld(nullptr),
+      m_currentWorld(nullptr),
       m_cleanCycleClock{},
       m_cleanCycleInterval{2.f}
 {
@@ -28,7 +28,11 @@ void ly::Application::run()
         {
             if (windowEvent.type == sf::Event::EventType::Closed)
             {
-                m_window.close();
+                quitApplication();
+            }
+            else
+            {
+                dispatchEvent(windowEvent);
             }
         }
         float frameDeltatime = m_tickClock.restart().asSeconds();
@@ -50,10 +54,10 @@ sf::Vector2u ly::Application::getWindowSize()
 void ly::Application::tick_internal(float deltaTime)
 {
     tick(deltaTime);
-    if (currentWorld)
+    if (m_currentWorld)
     {
-        currentWorld->beginPlayInternal();
-        currentWorld->tickInternal(deltaTime);
+        m_currentWorld->beginPlayInternal();
+        m_currentWorld->tickInternal(deltaTime);
     }
 
     TimerManager::get().updateTimer(deltaTime);
@@ -64,16 +68,34 @@ void ly::Application::tick_internal(float deltaTime)
     {
         m_cleanCycleClock.restart();
         AssetManager::get().cleanCycle();
-        if (currentWorld)
+        if (m_currentWorld)
         {
-            currentWorld->cleanCycle();
+            m_currentWorld->cleanCycle();
         }
+    }
+    if (m_pendingWorld && m_pendingWorld != m_currentWorld)
+    {
+        m_currentWorld = m_pendingWorld;
+        m_currentWorld -> beginPlayInternal();
     }
 }
 
 void ly::Application::tick(float deltaTime)
 {
     // LOG("framerate per second is: %f",1/deltaTime);
+}
+
+void ly::Application::quitApplication()
+{
+    getWindow().close();
+}
+
+bool ly::Application::dispatchEvent(const sf::Event &event)
+{
+    if (!m_currentWorld)
+        return false;
+    
+    return m_currentWorld->dispatchEvent(event);
 }
 
 void ly::Application::render_internal()
@@ -85,8 +107,8 @@ void ly::Application::render_internal()
 
 void ly::Application::render()
 {
-    if (currentWorld)
+    if (m_currentWorld)
     {
-        currentWorld->render(m_window);
+        m_currentWorld->render(m_window);
     }
 }

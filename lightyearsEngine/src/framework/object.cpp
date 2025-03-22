@@ -1,9 +1,15 @@
 #include "framework/object.hpp"
 #include "framework/core.hpp"
 
-ly::Object::Object():
-    m_isPendingDistroyed{false}
-{}
+namespace ly
+{
+    unsigned int Object::uniqueIDCounter = 0;
+}
+
+ly::Object::Object() : m_isPendingDistroyed{false},
+                       m_uniqueID{getNextAvailableID()}
+{
+}
 
 ly::Object::~Object()
 {
@@ -24,4 +30,9 @@ ly::weak<ly::Object> ly::Object::getWeakRef()
 ly::weak<const ly::Object> ly::Object::getWeakRef() const
 {
     return weak_from_this();
+}
+
+unsigned int ly::Object::getNextAvailableID()
+{
+    return uniqueIDCounter++;
 }

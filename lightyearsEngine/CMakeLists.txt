@@ -38,6 +38,24 @@ add_library(${LIGHT_YEARS_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include/gameplay/waitstage.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/waitstage.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/hud.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/hud.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/textWidget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textWidget.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/valueGuage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/valueGuage.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/imageWidget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/imageWidget.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/button.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/button.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/widgets/widget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/widget.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/entrypoint.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/entrypoint.cpp
 	)
